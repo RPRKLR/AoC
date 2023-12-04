@@ -20,6 +20,12 @@ int getNumbersFromText(std::string &input_string);
 
 int countOutputVals(std::vector<int> &vec);
 
+const std::vector<std::string> words = {"one", "two","three","four","five","six","seven","eight","nine"};
+
+int getNumberFromTextWithWords(std::string &input);
+
+
+
 int main()
 {
     std::ifstream file("./input.txt");
@@ -29,6 +35,7 @@ int main()
     {
         // std::cout << input_string << std::endl;
         int_vec.push_back(getNumbersFromText(input_string));
+        getNumberFromTextWithWords(input_string);
     }
     std::cout << countOutputVals(int_vec) << std::endl;
     return 0;
@@ -68,4 +75,70 @@ int countOutputVals(std::vector<int> &vec)
     for(const auto &number : vec)
         output_val += number;
     return output_val;
+}
+
+
+int getNumberFromTextWithWords(std::string &input)
+{
+    int last_num_pos = 0, first_num_pos = INFINITY;
+    int last_word_pos = 0, first_word_pos = INFINITY;
+    int num_of_words = 0, num_of_nums = 0;
+    std::vector<int> numbers;
+    for(const auto &word : words)
+    {
+        int found = input.find(word);
+        if (found != -1)
+        {
+            std::cout << word << " found in " << found << std::endl;
+            num_of_words++;
+        }
+
+        if (last_word_pos < found)
+        {
+            last_word_pos = found + word.size() - 1;
+            std::cout << input << " word found: " << word << " " << "in pos " << last_word_pos << " word size " << word.size() << std::endl;
+        }
+        if(first_word_pos > found)
+        {
+            first_word_pos = found + word.size() - 1;
+        }
+    }
+    for(size_t i = 0; i < input.size(); i++)
+    {
+        if(input[i] >= 48 && input[i] <= 57)
+        {
+            num_of_nums++;
+            if (last_num_pos < i)
+            {
+                last_num_pos = i;
+            }
+            if(first_num_pos > i)
+            {
+                first_num_pos = i;
+            }
+        }
+    }
+    std::string final_num = "";
+    if(num_of_nums == 1 && num_of_words == 0)
+    {   
+        final_num += input[last_num_pos] + input[last_num_pos];
+        return std::stoi(final_num);
+    }
+    else if(num_of_words == 1 && num_of_nums == 0)
+    {
+        final_num += input[last_word_pos] + input[last_word_pos];
+        return std::stoi(final_num);     
+    }
+    if(first_num_pos > first_word_pos)
+    {
+        final_num
+    }
+    else
+    {}
+    if(last_num_pos > last_word_pos)
+    {
+        final_num += 
+    }
+    else
+    {}
 }
