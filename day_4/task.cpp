@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include <bits/stdc++.h>
+#include <sstream>
 
 struct Card
 {
@@ -19,7 +19,7 @@ int main()
 {
     std::vector<Card> cards;
     std::ifstream file("./input.txt");
-    std::string input_string;   
+    std::string input_string;
     std::vector<int> int_vec;
     while (std::getline(file, input_string))
     {
@@ -29,14 +29,14 @@ int main()
         std::string new_str = input_string.substr(pos + 1);
         std::stringstream ss(new_str);
         std::string word;
-        while(ss >> word)
+        while (ss >> word)
         {
-            if(word == "|")
+            if (word == "|")
             {
                 after_winning = true;
                 continue;
             }
-            if(!after_winning)
+            if (!after_winning)
             {
                 int temp_n = std::stoi(word);
                 card.winning_numbers.push_back(temp_n);
@@ -56,20 +56,20 @@ int main()
 int matchCards(std::vector<Card> &cards)
 {
     int output = 0;
-    for(auto &card : cards)
+    for (auto &card : cards)
     {
-        for(const auto winning_num : card.winning_numbers)
+        for (const auto winning_num : card.winning_numbers)
         {
-            for(const auto your_num : card.your_numbers)
+            for (const auto your_num : card.your_numbers)
             {
-                if(winning_num == your_num)
+                if (winning_num == your_num)
                 {
                     card.match++;
-                    std::cout << "match added " << card.match << std::endl; 
+                    std::cout << "match added " << card.match << std::endl;
                 }
             }
         }
-        if(card.match < 2 && card.match != 0)
+        if (card.match < 2 && card.match != 0)
             output += 1;
         else
             output += std::pow(2, card.match - 1);
